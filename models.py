@@ -1,5 +1,6 @@
 # coding=utf-8
 import re
+import utils
 
 class Character:
   """Stores a character's attributes.
@@ -20,17 +21,14 @@ class Reference:
         reference_text: A string contianing verse numbers and ranges, like
             "1:2, 4, 5-7".
     """
-    chapter_text, verses = re.split(":", reference_text)
+    chapter_text, verses_text = re.split(":", reference_text)
     self.chapter = int(chapter_text)
     self.verses = []
-    for verse_ranges in re.split(", ", verses):
-      if len(verse_ranges) > 1:
-        for verse_range in re.split("-", verse_ranges):
-          if len(verse_range) == 1:
-            self.verses.append(int(verse_range[0]))
-          elif len(verse_range) == 2:
-            start = int(verse_range[0])
-            end = int(verse_range[1]) + 1
-            self.verses += range(start, end)
-      elif len(verse_ranges) == 1:
-        self.verses.append(int(verse_ranges[0]))
+    for verse_ranges in re.split(", ", verses_text):
+      if utils.is_number(verse_ranges):
+        self.verses.append(int(verse_ranges))
+      else:
+        start_text, end_text = re.split("-", verse_ranges)
+        start = int(start_text)
+        end = int(end_text) + 1
+        self.verses += range(start, end)
