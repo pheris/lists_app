@@ -11,6 +11,11 @@ class Character:
   def __init__(self, name):
     self.name = name
 
+  def __eq__(self, other):
+    if isinstance(other, Character):
+      return self.name == other.name
+    return NotImplemented
+
 class Reference:
   """Stores a reference to a set of verses in a chapter."""
 
