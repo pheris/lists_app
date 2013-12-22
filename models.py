@@ -37,3 +37,9 @@ class Reference:
         start = int(start_text)
         end = int(end_text) + 1
         self.verses += range(start, end)
+
+  def __eq__(self, other):
+    if isinstance(other, Reference):
+      return (self.chapter == other.chapter and
+              self.verses == other.verses)
+    return NotImplemented
