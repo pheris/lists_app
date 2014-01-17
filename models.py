@@ -41,14 +41,16 @@ class Character(Storeable):
 class Reference(Storeable):
   """Stores a reference to a set of verses in a chapter."""
 
-  def __init__(self, reference_text):
+  def __init__(self, reference_text, characters):
     """ Initializes a reference.
 
     Args:
         reference_text: A string contianing verse numbers and ranges, like
             "1:2, 4, 5-7".
+        characters: An array of Character objects.
     """
     self.reference_text = reference_text
+    self.characters = characters
     chapter_text, verses_text = re.split(":", self.reference_text)
     self.chapter = int(chapter_text)
     self.verses = []

@@ -45,26 +45,34 @@ class TestCharacter(unittest.TestCase):
 
 class TestReference(unittest.TestCase):
 
-  def assert_new_reference(self, reference_text, chapter, verses):
-    new_reference = models.Reference(reference_text)
+  def assert_new_reference(self, reference_text, chapter, verses, characters):
+    new_reference = models.Reference(reference_text, characters)
+    self.assertEqual(new_reference.reference_text, reference_text)
     self.assertEqual(new_reference.chapter, chapter)
     self.assertEqual(new_reference.verses, verses)
+    self.assertEqual(new_reference.characters, characters)
 
   def test_new(self):
-    self.assert_new_reference('2:12', 2, [12])
-    self.assert_new_reference('2:13, 14, 15', 2, [13, 14, 15])
-    self.assert_new_reference('3:12-14', 3, [12, 13, 14])
-    self.assert_new_reference('15:12-14, 16', 15, [12, 13, 14, 16])
-    self.assert_new_reference('17:12-14, 16-18', 17, [12, 13, 14, 16, 17, 18])
+    angels = models.Character('angels')
+    wolf = models.Character('wolf')
+    snake = models.Character('snake')
+    characters = [angels, wolf, snake]
+    self.assert_new_reference('2:12', 2, [12], characters)
+    self.assert_new_reference('2:13, 14, 15', 2, [13, 14, 15], characters)
+    self.assert_new_reference('3:12-14', 3, [12, 13, 14], characters)
+    self.assert_new_reference('15:12-14, 16', 15, [12, 13, 14, 16], characters)
+    self.assert_new_reference('17:12-14, 16-18', 17, [12, 13, 14, 16, 17, 18],
+                              characters)
     self.assert_new_reference('101:12-14, 16, 18-20', 101,
-                              [12, 13, 14, 16, 18, 19, 20])
+                              [12, 13, 14, 16, 18, 19, 20], characters)
 
   def test_eq(self):
-    reference_a = models.Reference('2:13, 14, 15')
-    reference_a_copy = models.Reference('2:13, 14, 15')
-    reference_different = models.Reference('15:16-19, 20')
-    reference_same_chapter= models.Reference('2:10, 11, 12')
-    reference_same_verses = models.Reference('3:13, 14, 15')
+    characters = [models.Character('Gog')]
+    reference_a = models.Reference('2:13, 14, 15', characters)
+    reference_a_copy = models.Reference('2:13, 14, 15', characters)
+    reference_different = models.Reference('15:16-19, 20', characters)
+    reference_same_chapter= models.Reference('2:10, 11, 12', characters)
+    reference_same_verses = models.Reference('3:13, 14, 15', characters)
     self.assertEqual(reference_a, reference_a)
     self.assertEqual(reference_a, reference_a_copy)
     self.assertNotEqual(reference_a, reference_different)
@@ -72,10 +80,11 @@ class TestReference(unittest.TestCase):
     self.assertNotEqual(reference_a, reference_same_verses)
 
   def test_get(self):
-    reference_c = models.Reference('11:13, 14, 15')
-    reference_d = models.Reference('112:1-3')
-    self.assertEqual(reference_c, models.Reference('11:13, 14, 15'))
-    self.assertEqual(reference_d, models.Reference('112:1-3'))
+    characters = [models.Character('Magog')]
+    reference_c = models.Reference('11:13, 14, 15', characters)
+    reference_d = models.Reference('112:1-3', characters)
+    self.assertEqual(reference_c, models.Reference.get('11:13, 14, 15'))
+    self.assertEqual(reference_d, models.Reference.get('112:1-3'))
 
 # class TestCharacterGroup(unittest.TestCase):
 
