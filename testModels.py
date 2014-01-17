@@ -7,12 +7,20 @@ import __builtin__
 class TestCharacter(unittest.TestCase):
 
   def test_new(self):
-    expected_name = 'a nāme'
-    expected_reference_a = models.Reference('101:12-14')
-    expected_reference_b = models.Reference('9:12')
-    new_character = models.Character(expected_name)
-    self.assertEqual(new_character.name, expected_name)
-    self.assertEqual(new_character.references)
+    new_character_a = models.Character('a nāme')
+    self.assertEqual('a nāme', new_character_a.name)
+    new_character_b = models.Character('b nāme')
+    self.assertEqual('b nāme', new_character_b.name)
+
+  def test_total(self):
+    initialTotal = models.Character.total()
+    self.assertEqual(initialTotal,  models.Character.total())
+    new_character_a = models.Character('Anna')
+    self.assertEqual(initialTotal + 1,  models.Character.total())
+    new_character_b = models.Character('Bill')
+    self.assertEqual(initialTotal + 2,  models.Character.total())
+    new_character_c = models.Character('Bill')
+    self.assertEqual(initialTotal + 2,  models.Character.total())
 
   def test_eq(self):
     alice = models.Character('Ālice')
@@ -21,6 +29,12 @@ class TestCharacter(unittest.TestCase):
     self.assertEqual(alice, alice)
     self.assertEqual(alice, alice_copy)
     self.assertNotEqual(alice, bob)
+
+  def test_get(self):
+    wolf = models.Character('wolf')
+    fox = models.Character('fox')
+    self.assertEqual(wolf, models.Character.get('wolf'))
+    self.assertEqual(fox, models.Character.get('fox'))
 
 class TestReference(unittest.TestCase):
 
@@ -51,23 +65,15 @@ class TestReference(unittest.TestCase):
     self.assertNotEqual(reference_a, reference_same_chapter)
     self.assertNotEqual(reference_a, reference_same_verses)
 
-class TestCharacterReference(unittest.TestCase):
+# class TestCharacterGroup(unittest.TestCase):
 
-  def test_new(self):
-    expected_name = 'a nāme'
-    expected_reference_a = models.Reference('101:12-14')
-    expected_reference_b = models.Reference('9:12')
-    new_character = models.Character(expected_name)
-    self.assertEqual(new_character.name, expected_name)
-    self.assertEqual(new_character.references)
-
-  def test_eq(self):
-    alice = models.Character('Ālice')
-    bob = models.Character('Bôb')
-    alice_copy = models.Character('Ālice')
-    self.assertEqual(alice, alice)
-    self.assertEqual(alice, alice_copy)
-    self.assertNotEqual(alice, bob)
+#   def test_new(self):
+#     alice = models.Character('Ālice')
+#     bob = models.Character('Bôb')
+#     expected_references = [models.Reference('101:12-14'), models.Reference('9:12')]
+#     new_character = models.Character(expected_name)
+#     self.assertEqual(expected_name, new_character.name)
+#     self.assertEqual(expected_references, new_character.references)
 
 # class TestCharacterList(unittest.TestCase):
 

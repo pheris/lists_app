@@ -8,16 +8,30 @@ class Character:
     Args:
         name: A string containing the character's name.
   """
+
+  dataMap = {}
+
   def __init__(self, name):
     self.name = name
+    self.__class__.dataMap[self.name] = self
 
   def __eq__(self, other):
     if isinstance(other, Character):
       return self.name == other.name
     return NotImplemented
 
+  @classmethod
+  def get(self, name):
+    return self.dataMap[name]
+
+  @classmethod
+  def total(self):
+    return len(self.dataMap)
+
 class Reference:
   """Stores a reference to a set of verses in a chapter."""
+
+  total = 0
 
   def __init__(self, reference_text):
     """ Initializes a reference.
