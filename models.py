@@ -2,36 +2,44 @@
 import re
 import utils
 
-class Character:
+class Storeable(object):
+  """Stores an object into a dataMap.
+
+    Args:
+        key: Object's key.
+        data: Object's data.
+  """
+  dataMap_ = {}
+
+  def __init__(self, key, data):
+    self.__class__.dataMap_[key] = data
+
+  @classmethod
+  def get(self, key):
+    return self.dataMap_[key]
+
+  @classmethod
+  def total(self):
+    return len(self.dataMap_)
+
+class Character(Storeable):
   """Stores a character's attributes.
 
     Args:
         name: A string containing the character's name.
   """
 
-  dataMap = {}
-
   def __init__(self, name):
     self.name = name
-    self.__class__.dataMap[self.name] = self
+    super(Character, self).__init__(self.name, self)
 
   def __eq__(self, other):
     if isinstance(other, Character):
       return self.name == other.name
     return NotImplemented
 
-  @classmethod
-  def get(self, name):
-    return self.dataMap[name]
-
-  @classmethod
-  def total(self):
-    return len(self.dataMap)
-
-class Reference:
+class Reference(Storeable):
   """Stores a reference to a set of verses in a chapter."""
-
-  total = 0
 
   def __init__(self, reference_text):
     """ Initializes a reference.
@@ -40,7 +48,8 @@ class Reference:
         reference_text: A string contianing verse numbers and ranges, like
             "1:2, 4, 5-7".
     """
-    chapter_text, verses_text = re.split(":", reference_text)
+    self.reference_text = reference_text
+    chapter_text, verses_text = re.split(":", self.reference_text)
     self.chapter = int(chapter_text)
     self.verses = []
     for verse_ranges in re.split(", ", verses_text):
@@ -51,6 +60,7 @@ class Reference:
         start = int(start_text)
         end = int(end_text) + 1
         self.verses += range(start, end)
+    super(Reference, self).__init__(self.reference_text, self)
 
   def __eq__(self, other):
     if isinstance(other, Reference):

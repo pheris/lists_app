@@ -3,6 +3,23 @@ import models
 import unittest
 import __builtin__
 
+class TestStoreable(unittest.TestCase):
+
+  def test_get(self):
+    models.Storeable('wolf', 'lapus big')
+    models.Storeable('fox', 'lapus small')
+    self.assertEqual('lapus big', models.Storeable.get('wolf'))
+    self.assertEqual('lapus small', models.Storeable.get('fox'))
+
+  def test_total(self):
+    initialTotal = models.Storeable.total()
+    self.assertEqual(initialTotal,  models.Storeable.total())
+    new_character_a = models.Storeable('Anna', 'Female')
+    self.assertEqual(initialTotal + 1,  models.Storeable.total())
+    new_character_b = models.Storeable('Bill', 'Male')
+    self.assertEqual(initialTotal + 2,  models.Storeable.total())
+    new_character_c = models.Storeable('Bill', 'Male 2')
+    self.assertEqual(initialTotal + 2,  models.Storeable.total())
 
 class TestCharacter(unittest.TestCase):
 
@@ -11,16 +28,6 @@ class TestCharacter(unittest.TestCase):
     self.assertEqual('a nāme', new_character_a.name)
     new_character_b = models.Character('b nāme')
     self.assertEqual('b nāme', new_character_b.name)
-
-  def test_total(self):
-    initialTotal = models.Character.total()
-    self.assertEqual(initialTotal,  models.Character.total())
-    new_character_a = models.Character('Anna')
-    self.assertEqual(initialTotal + 1,  models.Character.total())
-    new_character_b = models.Character('Bill')
-    self.assertEqual(initialTotal + 2,  models.Character.total())
-    new_character_c = models.Character('Bill')
-    self.assertEqual(initialTotal + 2,  models.Character.total())
 
   def test_eq(self):
     alice = models.Character('Ālice')
@@ -53,7 +60,6 @@ class TestReference(unittest.TestCase):
                               [12, 13, 14, 16, 18, 19, 20])
 
   def test_eq(self):
-    alice = models.Character('Ālice')
     reference_a = models.Reference('2:13, 14, 15')
     reference_a_copy = models.Reference('2:13, 14, 15')
     reference_different = models.Reference('15:16-19, 20')
@@ -64,6 +70,12 @@ class TestReference(unittest.TestCase):
     self.assertNotEqual(reference_a, reference_different)
     self.assertNotEqual(reference_a, reference_same_chapter)
     self.assertNotEqual(reference_a, reference_same_verses)
+
+  def test_get(self):
+    reference_c = models.Reference('11:13, 14, 15')
+    reference_d = models.Reference('112:1-3')
+    self.assertEqual(reference_c, models.Reference('11:13, 14, 15'))
+    self.assertEqual(reference_d, models.Reference('112:1-3'))
 
 # class TestCharacterGroup(unittest.TestCase):
 
