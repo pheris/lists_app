@@ -4,6 +4,6 @@ import models
 
 class Parser:
 
-  def __init__(self):
+  def parseLine(line):
 
-  def parse_line(line):
+  def __init__(self):
