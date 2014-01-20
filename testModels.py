@@ -99,29 +99,28 @@ class TestReferenceList(unittest.TestCase):
     simple_list_text = u'2:30-38 angels, Ādam; 2:34, 36 Iblīs; 2:35-36, 38 Ādam’s wife'
     simple_reference_list = models.ReferenceList(simple_list_text)
     angels_reference = simple_reference_list.references[0]
-    print(simple_reference_list.characters.keys())
-    self.assertEqual(simple_reference_list.characters['angels'],
-      models.Character('angels'))
-    self.assertEqual(simple_reference_list.characters['Ādam'],
-      models.Character('Ādam'))
-    self.assertEqual(simple_reference_list.characters['Iblīs'],
-      models.Character('Iblīs'))
-    self.assertEqual(simple_reference_list.characters['Ādam’s wife'],
-      models.Character('Ādam’s wife'))
+    self.assertEqual(simple_reference_list.characters[u'angels'],
+      models.Character(u'angels'))
+    self.assertEqual(simple_reference_list.characters[u'Ādam'],
+      models.Character(u'Ādam'))
+    self.assertEqual(simple_reference_list.characters[u'Iblīs'],
+      models.Character(u'Iblīs'))
+    self.assertEqual(simple_reference_list.characters[u'Ādam’s wife'],
+      models.Character(u'Ādam’s wife'))
     self.assertEqual(angels_reference.chapter, 2)
     self.assertEqual(angels_reference.verses, range(30, 39))
     self.assertEqual(angels_reference.characters[0],
-      models.Character('angels'))
-    self.assertEqual(angels_reference.characters[1], models.Character('Ādam'))
+      models.Character(u'angels'))
+    self.assertEqual(angels_reference.characters[1], models.Character(u'Ādam'))
     iblis_reference = simple_reference_list.references[1]
     self.assertEqual(iblis_reference.chapter, 2)
     self.assertEqual(iblis_reference.verses, [34, 36])
-    self.assertEqual(iblis_reference.characters[0], models.Character('Iblīs'))
+    self.assertEqual(iblis_reference.characters[0], models.Character(u'Iblīs'))
     adam_wife_reference = simple_reference_list.references[2]
     self.assertEqual(adam_wife_reference.chapter, 2)
     self.assertEqual(adam_wife_reference.verses, [35, 36, 38])
     self.assertEqual(adam_wife_reference.characters[0],
-      models.Character('Ādam’s wife'))
+      models.Character(u'Ādam’s wife'))
 
 if __name__ == '__main__':
   unittest.main()
