@@ -24,8 +24,8 @@ class TestStoreable(unittest.TestCase):
 class TestCharacter(unittest.TestCase):
 
   def test_new(self):
-    new_character_a = models.Character('a nāme')
-    self.assertEqual('a nāme', new_character_a.name)
+    new_character_a = models.Character(u'a nāme')
+    self.assertEqual(u'a nāme', new_character_a.name)
     new_character_b = models.Character('b nāme')
     self.assertEqual('b nāme', new_character_b.name)
 
@@ -37,9 +37,9 @@ class TestCharacter(unittest.TestCase):
     self.assertEqual(2, john_copy.getMentions())
 
   def test_eq(self):
-    alice = models.Character('Ālice')
-    bob = models.Character('Bôb')
-    alice_copy = models.Character('Ālice')
+    alice = models.Character(u'Ālice')
+    bob = models.Character(u'Bôb')
+    alice_copy = models.Character(u'Ālice')
     self.assertEqual(alice, alice)
     self.assertEqual(alice, alice_copy)
     self.assertNotEqual(alice, bob)
@@ -96,9 +96,10 @@ class TestReference(unittest.TestCase):
 class TestReferenceList(unittest.TestCase):
 
   def test_new(self):
-    simple_list_text = '2:30-38 angels, Ādam; 2:34, 36 Iblīs; 2:35-36, 38 Ādam’s wife'
+    simple_list_text = u'2:30-38 angels, Ādam; 2:34, 36 Iblīs; 2:35-36, 38 Ādam’s wife'
     simple_reference_list = models.ReferenceList(simple_list_text)
     angels_reference = simple_reference_list.references[0]
+    print(simple_reference_list.characters.keys())
     self.assertEqual(simple_reference_list.characters['angels'],
       models.Character('angels'))
     self.assertEqual(simple_reference_list.characters['Ādam'],

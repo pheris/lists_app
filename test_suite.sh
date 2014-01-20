@@ -1,2 +1,2 @@
 #!/bin/bash
-python -m unittest testModels testParser
+python -m unittest testModels testReferenceListManager
