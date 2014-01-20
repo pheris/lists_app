@@ -37,10 +37,26 @@ class Character(Storeable):
       self.mentions_ = self.__class__.dataMap_[self.name].mentions_ + 1
     else:
       self.mentions_ = 1
+      self.mentionsInSharedList_ = {}
     super(Character, self).__init__(self.name, self)
 
   def getMentions(self):
     return self.__class__.dataMap_[self.name].mentions_
+
+  def addMentionInSharedList(self, other):
+    if self == other:
+      return
+    if self.getNumberOfSharedListsByCharacter(other) == 0:
+      self.mentionsInSharedList_[other.name] = 1
+    else:
+      self.mentionsInSharedList_[other.name] += 1
+
+  def getNumberOfSharedListsByCharacter(self, other):
+    if self == other:
+      return 0
+    if not(other.name in self.mentionsInSharedList_.keys()):
+      return 0
+    return self.mentionsInSharedList_[other.name]
 
   def __eq__(self, other):
     if isinstance(other, Character):

@@ -44,11 +44,17 @@ class TestCharacter(unittest.TestCase):
     self.assertEqual(alice, alice_copy)
     self.assertNotEqual(alice, bob)
 
-  def test_get(self):
+  def test_getNumberOfSharedLists(self):
     wolf = models.Character('wolf')
     fox = models.Character('fox')
-    self.assertEqual(wolf, models.Character.get('wolf'))
-    self.assertEqual(fox, models.Character.get('fox'))
+    hound = models.Character('hound')
+    wolf.addMentionInSharedList(fox)
+    wolf.addMentionInSharedList(hound)
+    wolf.addMentionInSharedList(fox)
+    wolf.addMentionInSharedList(wolf)
+    self.assertEqual(wolf.getNumberOfSharedListsByCharacter(fox), 2)
+    self.assertEqual(wolf.getNumberOfSharedListsByCharacter(hound), 1)
+    self.assertEqual(wolf.getNumberOfSharedListsByCharacter(wolf), 0)
 
 class TestReference(unittest.TestCase):
 

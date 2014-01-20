@@ -46,6 +46,9 @@ class TestReferenceListManager(unittest.TestCase):
     self.assertEqual(sole_reference.characters[1], models.Character(u'‘Īsā'))
     self.assertEqual(sole_reference.characters[2], models.Character(u'Ādam'))
 
+  # def test_getRelationships(self):
+  #   manager = ReferenceListManager('./test_relationships.txt')
+
 
 if __name__ == '__main__':
   unittest.main()
