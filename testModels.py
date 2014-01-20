@@ -49,29 +49,29 @@ class TestCharacter(unittest.TestCase):
     self.assertEqual(alice, alice_copy)
     self.assertNotEqual(alice, bob)
 
-  def test_getNumberOfSharedListsByCharacter(self):
-    wolf = models.Character(u'wolf')
-    fox = models.Character(u'fox')
-    hound = models.Character(u'hōund')
-    wolf.addMentionInSharedListByCharacter(fox)
-    wolf.addMentionInSharedListByCharacter(hound)
-    wolf.addMentionInSharedListByCharacter(fox)
-    wolf.addMentionInSharedListByCharacter(wolf)
-    self.assertEqual(wolf.getNumberOfSharedListsByCharacter(fox), 2)
-    self.assertEqual(wolf.getNumberOfSharedListsByCharacter(hound), 1)
-    self.assertEqual(wolf.getNumberOfSharedListsByCharacter(wolf), 0)
+  # def test_getNumberOfSharedListsByCharacter(self):
+  #   wolf = models.Character(u'wolf')
+  #   fox = models.Character(u'fox')
+  #   hound = models.Character(u'hōund')
+  #   wolf.addMentionInSharedListByCharacter(fox)
+  #   wolf.addMentionInSharedListByCharacter(hound)
+  #   wolf.addMentionInSharedListByCharacter(fox)
+  #   wolf.addMentionInSharedListByCharacter(wolf)
+  #   self.assertEqual(wolf.getNumberOfSharedListsByCharacter(fox), 2)
+  #   self.assertEqual(wolf.getNumberOfSharedListsByCharacter(hound), 1)
+  #   self.assertEqual(wolf.getNumberOfSharedListsByCharacter(wolf), 0)
 
-  def test_getNumberOfSharedListsByName(self):
-    wolf = models.Character(u'wolf')
-    fox = models.Character(u'fox')
-    hound = models.Character(u'hōund')
-    wolf.addMentionInSharedListByName(fox.name)
-    wolf.addMentionInSharedListByName(hound.name)
-    wolf.addMentionInSharedListByName(fox.name)
-    wolf.addMentionInSharedListByName(wolf.name)
-    self.assertEqual(wolf.getNumberOfSharedListsByName(u'fox'), 2 )
-    self.assertEqual(wolf.getNumberOfSharedListsByName(u'hōund'), 1)
-    self.assertEqual(wolf.getNumberOfSharedListsByName(u'wolf'), 0)
+  # def test_getNumberOfSharedListsByName(self):
+  #   wolf = models.Character(u'wolf')
+  #   fox = models.Character(u'fox')
+  #   hound = models.Character(u'hōund')
+  #   wolf.addMentionInSharedListByName(fox.name)
+  #   wolf.addMentionInSharedListByName(hound.name)
+  #   wolf.addMentionInSharedListByName(fox.name)
+  #   wolf.addMentionInSharedListByName(wolf.name)
+  #   self.assertEqual(wolf.getNumberOfSharedListsByName(u'fox'), 2 )
+  #   self.assertEqual(wolf.getNumberOfSharedListsByName(u'hōund'), 1)
+  #   self.assertEqual(wolf.getNumberOfSharedListsByName(u'wolf'), 0)
 
 class TestReference(unittest.TestCase):
 
