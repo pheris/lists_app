@@ -14,4 +14,4 @@ class ReferenceListManager:
     self.lists = []
     with codecs.open(filePath, encoding='utf-8') as f:
       for line in f:
-        self.lists.append(models.ReferenceList(line))
+        self.lists.append(models.ReferenceList(line.rstrip('\n')))

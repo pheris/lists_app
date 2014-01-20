@@ -26,8 +26,8 @@ class TestCharacter(unittest.TestCase):
   def test_new(self):
     new_character_a = models.Character(u'a nāme')
     self.assertEqual(u'a nāme', new_character_a.name)
-    new_character_b = models.Character('b nāme')
-    self.assertEqual('b nāme', new_character_b.name)
+    new_character_b = models.Character(u'b nāme')
+    self.assertEqual(u'b nāme', new_character_b.name)
 
   def test_mentions(self):
     john = models.Character('John')
