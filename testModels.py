@@ -5,6 +5,9 @@ import __builtin__
 
 class TestStoreable(unittest.TestCase):
 
+  def setUp(self):
+    models.Storeable.dataMap_ = {}
+
   def test_get(self):
     models.Storeable('wolf', 'lapus big')
     models.Storeable('fox', 'lapus small')
@@ -12,16 +15,18 @@ class TestStoreable(unittest.TestCase):
     self.assertEqual('lapus small', models.Storeable.get('fox'))
 
   def test_total(self):
-    initialTotal = models.Storeable.total()
-    self.assertEqual(initialTotal,  models.Storeable.total())
+    self.assertEqual(0,  models.Storeable.total())
     new_character_a = models.Storeable('Anna', 'Female')
-    self.assertEqual(initialTotal + 1,  models.Storeable.total())
+    self.assertEqual(1,  models.Storeable.total())
     new_character_b = models.Storeable('Bill', 'Male')
-    self.assertEqual(initialTotal + 2,  models.Storeable.total())
+    self.assertEqual(2,  models.Storeable.total())
     new_character_c = models.Storeable('Bill', 'Male 2')
-    self.assertEqual(initialTotal + 2,  models.Storeable.total())
+    self.assertEqual(2,  models.Storeable.total())
 
 class TestCharacter(unittest.TestCase):
+
+  def setUp(self):
+    models.Character.dataMap_ = {}
 
   def test_new(self):
     new_character_a = models.Character(u'a nāme')
@@ -48,35 +53,30 @@ class TestCharacter(unittest.TestCase):
     wolf = models.Character(u'wolf')
     fox = models.Character(u'fox')
     hound = models.Character(u'hōund')
-    initialFoxMentions = wolf.getNumberOfSharedListsByCharacter(fox)
-    initialHoundMentions = wolf.getNumberOfSharedListsByCharacter(hound)
     wolf.addMentionInSharedListByCharacter(fox)
     wolf.addMentionInSharedListByCharacter(hound)
     wolf.addMentionInSharedListByCharacter(fox)
     wolf.addMentionInSharedListByCharacter(wolf)
-    self.assertEqual(wolf.getNumberOfSharedListsByCharacter(fox),
-      initialFoxMentions + 2)
-    self.assertEqual(wolf.getNumberOfSharedListsByCharacter(hound),
-      initialHoundMentions + 1)
+    self.assertEqual(wolf.getNumberOfSharedListsByCharacter(fox), 2)
+    self.assertEqual(wolf.getNumberOfSharedListsByCharacter(hound), 1)
     self.assertEqual(wolf.getNumberOfSharedListsByCharacter(wolf), 0)
 
   def test_getNumberOfSharedListsByName(self):
     wolf = models.Character(u'wolf')
     fox = models.Character(u'fox')
     hound = models.Character(u'hōund')
-    initialFoxMentions = wolf.getNumberOfSharedListsByName(fox.name)
-    initialHoundMentions = wolf.getNumberOfSharedListsByName(hound.name)
     wolf.addMentionInSharedListByName(fox.name)
     wolf.addMentionInSharedListByName(hound.name)
     wolf.addMentionInSharedListByName(fox.name)
     wolf.addMentionInSharedListByName(wolf.name)
-    self.assertEqual(wolf.getNumberOfSharedListsByName(u'fox'),
-      initialFoxMentions + 2)
-    self.assertEqual(wolf.getNumberOfSharedListsByName(u'hōund'),
-      initialHoundMentions + 1)
+    self.assertEqual(wolf.getNumberOfSharedListsByName(u'fox'), 2 )
+    self.assertEqual(wolf.getNumberOfSharedListsByName(u'hōund'), 1)
     self.assertEqual(wolf.getNumberOfSharedListsByName(u'wolf'), 0)
 
 class TestReference(unittest.TestCase):
+
+  def setUp(self):
+    models.Reference.dataMap_ = {}
 
   def assert_new_reference(self, text, chapter, verses, characters):
     new_reference = models.Reference(text, characters)
@@ -121,10 +121,13 @@ class TestReference(unittest.TestCase):
 
 class TestReferenceList(unittest.TestCase):
 
+  def setUp(self):
+    models.ReferenceList.dataMap_ = {}
+
   def test_new(self):
     simple_list_text = u'2:30-38 angels, Ādam; 2:34, 36 Iblīs; 2:35-36, 38 Ādam’s wife'
     simple_reference_list = models.ReferenceList(simple_list_text)
-    angels_reference = simple_reference_list.references[0]
+
     self.assertEqual(simple_reference_list.characters[u'angels'],
       models.Character(u'angels'))
     self.assertEqual(simple_reference_list.characters[u'Ādam'],
@@ -133,20 +136,26 @@ class TestReferenceList(unittest.TestCase):
       models.Character(u'Iblīs'))
     self.assertEqual(simple_reference_list.characters[u'Ādam’s wife'],
       models.Character(u'Ādam’s wife'))
+
+    angels_reference = simple_reference_list.references[0]
     self.assertEqual(angels_reference.chapter, 2)
     self.assertEqual(angels_reference.verses, range(30, 39))
     self.assertEqual(angels_reference.characters[0],
       models.Character(u'angels'))
     self.assertEqual(angels_reference.characters[1], models.Character(u'Ādam'))
+
     iblis_reference = simple_reference_list.references[1]
     self.assertEqual(iblis_reference.chapter, 2)
     self.assertEqual(iblis_reference.verses, [34, 36])
     self.assertEqual(iblis_reference.characters[0], models.Character(u'Iblīs'))
+
     adam_wife_reference = simple_reference_list.references[2]
     self.assertEqual(adam_wife_reference.chapter, 2)
     self.assertEqual(adam_wife_reference.verses, [35, 36, 38])
     self.assertEqual(adam_wife_reference.characters[0],
       models.Character(u'Ādam’s wife'))
+
+
 
 if __name__ == '__main__':
   unittest.main()
